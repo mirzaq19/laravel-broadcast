@@ -9,6 +9,31 @@
     <title>Chatting App</title>
 </head>
 <body>
-<h1>Chatting App</h1>
+    <section class='bg-gray-900'>
+        <div class='flex flex-col items-center min-h-screen py-16 space-y-8 text-white layout'>
+            <h1 class="font-semibold text-3xl">Laravel Broadcasting with Public Channel </h1>
+            <div class='w-full max-w-lg space-y-2'>
+                <label for="message">Message:</label>
+                <input
+                    type='text'
+                    id='message'
+                    placeholder='Write your message, then press enter.'
+                    class='w-full border border-gray-600 rounded-lg focus:ring-primary-400 p-4 text-gray-700'
+                />
+            </div>
+            <div class='flex flex-col items-start w-full max-w-lg max-h-[36rem] overflow-y-auto'>
+                {{-- Messages will be rendered here || Template--}}
+                @for ($i = 0; $i < 20; $i++)
+                <div class='flex py-2'>
+                    <p class='flex items-center mr-2 font-semibold'>
+                        <span class='inline-block truncate w-14'>name</span>:
+                    </p>
+                    <p>message</p>
+                </div>
+                @endfor
+            </div>
+        </div>
+    </section>
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
