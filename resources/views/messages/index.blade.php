@@ -21,19 +21,47 @@
                     class='w-full border border-gray-600 rounded-lg focus:ring-primary-400 p-4 text-gray-700'
                 />
             </div>
-            <div class='flex flex-col items-start w-full max-w-lg max-h-[36rem] overflow-y-auto'>
+            <div id="message-container" class='flex flex-col items-start w-full max-w-lg max-h-[36rem] overflow-y-auto'>
                 {{-- Messages will be rendered here || Template--}}
-                @for ($i = 0; $i < 20; $i++)
-                <div class='flex py-2'>
-                    <p class='flex items-center mr-2 font-semibold'>
-                        <span class='inline-block truncate w-14'>name</span>:
-                    </p>
-                    <p>message</p>
-                </div>
-                @endfor
             </div>
         </div>
     </section>
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        let username = prompt('Enter your name:');
+        const channel = 'public';
+
+        // Listen for new messages
+        Echo.channel('messages')
+            .listen('MessageBroadcast', (e) => {
+                console.log(e);
+                const message = e.message;
+                const name = e.name;
+                const html = `
+                    <div class='flex py-2'>
+                        <p class='flex items-center mr-2 font-semibold'>
+                            <span class='inline-block'>${name}</span>:
+                        </p>
+                        <p>${message}</p>
+                    </div>
+                `;
+                document.querySelector('#message-container').innerHTML += html;
+            });
+
+        const INPUT_MESSAGE = document.querySelector('#message');
+        INPUT_MESSAGE.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const MESSAGE = e.target.value;
+                console.log(MESSAGE);
+                e.target.value = '';
+                // Broadcast message
+                window.axios.post('/api/chat/send', {
+                    message: MESSAGE,
+                    name: username,
+                    channel: channel
+                })
+            }
+        });
+    </script>
 </body>
 </html>
