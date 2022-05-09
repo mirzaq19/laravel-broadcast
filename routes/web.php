@@ -18,4 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('chat',[MessageController::class,'index']);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+Route::get('/message',[MessageController::class,'index']);
+Route::get('/private-message',[MessageController::class,'private'])->middleware(['auth']);
+
+require __DIR__.'/auth.php';
