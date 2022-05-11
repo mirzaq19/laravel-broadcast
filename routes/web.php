@@ -22,8 +22,11 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/message',[MessageController::class,'index']);
-Route::get('/private-message',[MessageController::class,'private'])->middleware(['auth']);
-Route::get('/presence-message',[MessageController::class,'presence'])->middleware(['auth']);
+
+Route::prefix('/channel')->group(function () {
+    Route::get('/public', [MessageController::class, 'index']);
+    Route::get('/private', [MessageController::class, 'private'])->middleware(['auth']);
+    Route::get('/presence', [MessageController::class, 'presence'])->middleware(['auth']);
+});
 
 require __DIR__.'/auth.php';
