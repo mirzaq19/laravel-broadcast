@@ -31,7 +31,6 @@
 </section>
 <script src="{{ asset('js/app.js') }}"></script>
 <script>
-    let username = prompt('Enter your name:');
     const channel = 'presence';
 
     let members= [];
@@ -99,7 +98,7 @@
             // Broadcast message
             window.axios.post('/api/chat/send', {
                 message: MESSAGE,
-                name: username,
+                name: '{{ Auth::user()->name }}',
                 channel: channel
             });
         }
