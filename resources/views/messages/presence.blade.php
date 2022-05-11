@@ -51,7 +51,6 @@
                 members.splice(index, 1);
             }
         });
-        setMember();
     }
 
     // Listen for event from pusher
