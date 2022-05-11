@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -17,6 +18,11 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel("messages", function () {
+Broadcast::channel("messages", function (User $user) {
+    // Presence channel
+    if (auth()->check()) {
+        return $user->toArray();
+    }
+    // Private channel
     return true;
 });

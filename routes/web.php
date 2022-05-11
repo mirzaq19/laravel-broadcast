@@ -24,5 +24,6 @@ Route::get('/dashboard', function () {
 
 Route::get('/message',[MessageController::class,'index']);
 Route::get('/private-message',[MessageController::class,'private'])->middleware(['auth']);
+Route::get('/presence-message',[MessageController::class,'presence'])->middleware(['auth']);
 
 require __DIR__.'/auth.php';

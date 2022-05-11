@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\MessageBroadcast;
+use App\Events\MessagePresence;
 use App\Events\MessageSent;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -22,6 +23,11 @@ class MessageController extends Controller
         return view('messages.private');
     }
 
+    public function presence(): Factory|View|Application
+    {
+        return view('messages.presence');
+    }
+
     public function store(Request $request)
     {
         switch ($request->input('channel'))
@@ -35,6 +41,13 @@ class MessageController extends Controller
                 break;
             case 'private':
                 MessageSent::dispatch(
+                    $request->input('name'),
+                    $request->input('message'),
+                    (new DateTime)->format('Y-m-d H:i:s')
+                );
+                break;
+            case 'presence':
+                MessagePresence::dispatch(
                     $request->input('name'),
                     $request->input('message'),
                     (new DateTime)->format('Y-m-d H:i:s')
